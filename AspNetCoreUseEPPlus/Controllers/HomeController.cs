@@ -23,8 +23,6 @@ namespace AspNetCoreUseEPPlus.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
- 
             using var p = new ExcelPackage();
             var sheet = p.Workbook.Worksheets.Add("Sheet1");
 
