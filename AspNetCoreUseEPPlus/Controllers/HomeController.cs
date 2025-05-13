@@ -7,6 +7,7 @@ namespace AspNetCoreUseEPPlus.Controllers
     [Route("[controller]")]
     public class HomeController : ControllerBase
     {
+        private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -23,13 +24,9 @@ namespace AspNetCoreUseEPPlus.Controllers
         public IActionResult Get()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-
-            // Create a new workbook and save it to a System.IO.MemoryStream
-            using var ms = new MemoryStream();
-            using var p = new ExcelPackage(ms);
+ 
+            using var p = new ExcelPackage();
             var sheet = p.Workbook.Worksheets.Add("Sheet1");
-            //sheet.Cells["A1"].Value = "Hello world!";
 
             var persons = new List<Person>
                 {
@@ -42,10 +39,10 @@ namespace AspNetCoreUseEPPlus.Controllers
                 options.PrintHeaders = true;
             });
 
-            // write the workbook bytes to the stream
-            p.Save();
+            var excelData = p.GetAsByteArray();
+            var fileName = "MyWorkbook.xlsx";
 
-            return File(ms.ToArray(), "application/octet-stream", "test.xlsx");
+            return File(excelData, ContentType, fileName);
         }
     }
 }
