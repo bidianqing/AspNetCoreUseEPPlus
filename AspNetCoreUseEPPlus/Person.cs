@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using OfficeOpenXml.Attributes;
+using System.ComponentModel;
 
 namespace AspNetCoreUseEPPlus
 {
@@ -12,13 +13,22 @@ namespace AspNetCoreUseEPPlus
             BirthDate = birthDate;
         }
 
-        [DisplayName("The persons first name")]
+        [DisplayName("FirstName")]
         public string FirstName { get; set; }
 
+        [DisplayName("LastName")]
         public string LastName { get; set; }
 
+        [DisplayName("身高")]
         public int Height { get; set; }
 
+        [EpplusTableColumn(Header = "生日")]
         public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// 忽略
+        /// </summary>
+        [EpplusIgnore]
+        public string Password { get; set; }
     }
 }
